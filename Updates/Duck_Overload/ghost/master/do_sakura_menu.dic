@@ -1,0 +1,203 @@
+SakuraMenuGreetings : nonoverlap
+{
+	"How can I help you?"
+	"What?"
+	if points > 0{
+		"Paused. Now what?"
+		"Are you gonna quit now?"
+	}else{
+		"Did you want to play the actual game, orr..."
+		"Wanna play a round?"
+	}
+}
+
+//Because there is an all modifier here, you don't need to write -- between menu options
+OnSakuraMenu : all
+{
+	//pause the game
+	gameOn = 0
+	"%(bored)\b2\![set,autoscroll,disable]"
+	if SHIORI3FW.Eventid == "OnMouseDoubleClick"; SakuraMenuGreetings //The check here is so they won't comment if you click the back button. Remove if you prefer
+	
+	"\n\n\_q"
+	if points > 0{
+		"\![*]\q[Quit!,OnEndGame]  \n\n"
+	}else{
+		"\![*]\q[Let's play!,OnGameRateMenu]  \![*]\q[Shop,OnPrizeMenu]\n\n"
+	}
+	
+	
+	"\![*]\q[Talk to me,OnAiTalk]"
+	if LastTalk != ""; "  \![*]\q[Say that again,OnLastTalk]"
+	"\n\n[half]"
+	
+	//"\![*]\q[Change talk rate,OnTalkRateMenu]\n\n[half]"
+	
+	"\![*]\q[Nevermind,blank]"	
+	
+	"\n\n\f[align,center]\f[height,+4]\_b[img/ticket.png,inline] %tickets     \_b[img/exclaim.png,inline]%highscore"
+	"\n\_a[OnSettingsMenu] \_b[img/gear.png,inline]\_a"
+}
+
+OnLastTalk
+{
+	LastTalk
+}
+
+blank{
+	if points > 0{
+		gameOn = 1
+	}
+}
+
+OnChoiceTimeout{
+	blank
+}
+
+
+OnSettingsMenu : all{
+	"\_q"
+	"Font Height: \q[-,OnDownHeight] %fontheight \q[+,OnUpHeight]\n"
+	if sfx == 1{
+		"Sfx: \![*]\q[ON,OnFlipSFX]\n"
+	}else{
+		"Sfx: \![*]\q[OFF,OnFlipSFX]\n"
+	}
+	OnTalkRateMenu
+	"\n\n[half]\![*]\q[Back,OnSakuraMenu]  \![*]\q[Nevermind,blank]"
+}
+
+OnUpHeight{
+	fontheight++
+	OnSettingsMenu
+}
+
+OnDownHeight{
+	fontheight--
+	OnSettingsMenu
+}
+
+OnFlipSFX{
+	sfx = BITWISE_XOR(sfx,1)
+	OnSettingsMenu
+}
+
+
+
+OnTalkRateMenu : all
+{	
+	//This is just setting up a label, you may need to add to it or tweak it if you change what rates are available
+	_talkrate = "Off"
+	if aitalkinterval == 30; _talkrate = "30 seconds"
+	elseif aitalkinterval == 60; _talkrate = "1 minute"
+	elseif aitalkinterval == 180; _talkrate = "3 minutes"
+	elseif aitalkinterval == 300; _talkrate = "5 minutes"
+	elseif aitalkinterval == 600; _talkrate = "10 minutes"
+	
+	//"%(bored)\b2\![set,autoscroll,disable]\_q"
+	"Talk Rate: %(_talkrate) \n    "
+	
+	"\![*]\q[Off,OnTalkRateChange,0]  "
+	"\![*]\q[1m,OnTalkRateChange,60]  "
+	"\![*]\q[3m,OnTalkRateChange,180]  "
+	"\![*]\q[5m,OnTalkRateChange,300]  "
+	"\![*]\q[10m,OnTalkRateChange,600]"
+	//"\n"
+	//"\![*]\q[Back,OnSakuraMenu]  \![*]\q[Nevermind,blank]"
+}
+
+OnTalkRateChange
+{
+	aitalkinterval = TOINT(reference0)
+	OnSettingsMenu
+}
+
+
+
+
+OnGameRateMenu : all
+{	
+	
+	"%(bored)\b2\![set,autoscroll,disable]\_qHow do you want to play?\n\n[half]"
+
+	"\![*]\q[Slow,OnGameRateChange,15,1]\n"
+	"\![*]\q[Normal,OnGameRateChange,6,2]\n"
+	"\![*]\q[Fast,OnGameRateChange,3,3]\n"
+	"\![*]\q[Super Speed,OnGameRateChange,1,4]\n"
+	"\n"
+	"\![*]\q[Back,OnSakuraMenu]  \![*]\q[Nevermind,blank]"
+}
+
+OnGameRateChange
+{
+	if totalgames == 0{
+		"So, this is your first time? Alright, fine, I’ll put it simply. Ducks are gonna pop up everywhere. I mean, everywhere. It’s your job to collect them. Some have costumes, some are other colors, whatever. I’ll keep your score for you here. If you don’t collect them in time, then that’s a strike against you. Ask me if you want to change the speed or whatever"
+	}else{
+		if totalgames > 10; "are you okay this is time %totalgames playing this"
+		"Again? Okay, fine. Ducks, go."
+		"I feel like you're wasting your time."
+		"I don't get paid enough for this"
+		if totalgames > 10; "%(alarmlook)Blink twice if you need help"
+	}
+	
+	--
+	clearGame
+	duckRate = TOINT(reference0)
+	pointmultiplier = TOINT(reference1)
+	spawnTimer = 1
+	
+}
+
+
+
+
+
+OnPrizeMenu : all{
+	"\_q\b2 %(bored)"
+	for _i = 0; _i < ARRAYSIZE(Prizes); _i++{
+		_prizeid = (Prizes[_i,','])[2]
+		_prizename = (Prizes[_i,','])[0]
+		_prizeprice = TOINT((Prizes[_i,','])[1])
+		if ASEARCH(_prizeid,prizesgot) < 1{
+			if tickets >= _prizeprice{
+				"\![*]\_a[OnBuyPrize,%_prizeid,%_prizeprice]Buy %_prizename for %_prizeprice tickets\_a\n"
+			}else{
+				"\![*]Buy %_prizename for %_prizeprice tickets\n"
+			}
+			
+		}
+		
+	}
+	"\n\n\![*]\q[Back,OnSakuraMenu]  \![*]\q[Nevermind,blank]"
+
+	
+}
+
+OnBuyPrize{
+	_id = reference0
+	_price = TOINT(reference1)
+	tickets-= _price
+	prizesgot ,= _id
+	"Here's your prize. %(mischief)Enjoy."
+}
+
+
+Prizes : array {
+	"Teddy,500,300"
+	"Octopus,1000,301"
+	"Green Thing,2000,302"
+	"Blue Dog,2500,303"
+	"Vulture?,5000,304"
+	"Weird Robot,4000,305"
+	"Starfruit Pillow,3000,306"
+
+}
+
+
+
+
+
+
+
+
+

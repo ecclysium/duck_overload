@@ -1,0 +1,100 @@
+charset,UTF-8
+type,balloon
+use_self_alpha,1
+use_input_alpha,1
+//overlay_outside_balloon,1
+
+
+//——— Basic information ———
+name,Carnival on Quack
+craftman,Blue0909
+craftmanw,Blue
+craftmanurl,https://blue0909.tumblr.com/
+homeurl,https://raw.githubusercontent.com/ecclysium/carnival_on_quack/main/Updates/
+
+
+//——— Display area ———
+origin.x,8
+origin.y,8
+
+validrect.left,10
+validrect.top,10
+validrect.right,-20
+validrect.bottom,-20
+
+wordwrappoint.x,-28
+
+
+//——— Font ———
+font.name,Calibri
+font.height,14
+
+font.color.r,88
+font.color.g,32
+font.color.b,32
+
+anchor.font.color.r,015
+anchor.font.color.g,084
+anchor.font.color.b,138
+
+
+cursor.font.color.r,015
+cursor.font.color.g,084
+cursor.font.color.b,138
+
+cursor.style,underline
+
+disable.font.color.r,146
+disable.font.color.g,135
+disable.font.color.b,178
+
+
+//——— Arrows ———
+arrow0.x,-18
+arrow0.y,5
+
+arrow1.x,-18
+arrow1.y,-20
+
+
+//——— Online marker ———
+onlinemarker.x,123
+onlinemarker.y,-18
+
+//onlinemarker.interval,175
+
+
+//——— SSTP ———
+sstpmarker.x,18
+sstpmarker.y,-18
+
+sstpmessage.font.name,Calibri
+sstpmessage.font.height,11
+
+sstpmessage.x,31
+sstpmessage.xr,-20
+sstpmessage.y,-17
+
+sstpmessage.font.color.r,137
+sstpmessage.font.color.g,154
+sstpmessage.font.color.b,168
+
+
+//——— Number ———
+number.font.name,Calibri
+number.font.height,11
+
+number.xr,-20
+number.y,-17
+
+number.font.color.r,137
+number.font.color.g,154
+number.font.color.b,168
+
+
+//——— Input box ———
+communicatebox.x,8
+communicatebox.y,8
+
+communicatebox.width,283
+communicatebox.height,20

@@ -1,0 +1,258 @@
+//Duck duck! 
+
+
+
+OnFirstBootDuckVariables{
+	points = 0
+	clearGame
+	highscore = 0
+	sfx = 1
+	gameOn = 0
+	
+	
+}
+
+
+clearGame{
+	duckID = initializeArray(28)
+	duckVal = initializeArray(28)
+	duckTime = initializeArray(28)
+	duckSpecial = initializeArray(28)
+	
+	ducksActive = 0
+	spawnTimer = 0
+	burstActive = 0
+	missedDucks = 0
+	misses = 0
+	points = 0
+	gameOn = 1
+}
+
+
+initializeArray{
+	_out = IARRAY
+	
+	for _i = 0; _i < _argv[0]; _i++{
+		_out ,= 0
+	}
+	
+	_out
+}
+
+
+
+OnSecondChangeDuckActivity : all{
+	if gameOn == 1{
+		if spawnTimer > duckRate{
+			if duckRate <20 && RAND(2) == 0{
+				OnSpawnDuck
+			}
+			if duckRate <=10 && RAND(2) == 0{
+				OnSpawnDuck
+			}
+			//More ducks the higher num of points you have!
+			for _x = 0; _x < TOINT(points/100) + 1; _x++{
+				OnSpawnDuck
+			}
+			
+			spawnTimer = 1
+		}elseif duckRate > 0{
+			spawnTimer++
+		}
+		for _i = 0; _i < ARRAYSIZE(duckVal) ; _i++{
+			if spawnTimer > 0 && duckTime[_i] != 0{
+				if duckTime[_i] == 1 && duckVal[_i] >= 1 && SHIORI3FW.IsVisible[_i+1] > 0{
+					misses++
+					duckTime[_i] = 0
+					duckVal[_i] = 0
+					duckSpecial[_i] = 0
+					//"\p[%(_i+1)]\s[-1]"
+					if misses >= 5{
+						endGame
+					}else{
+						if sfx == 1{
+							"\p[%(_i+1)]\s[-1]\_v[sound/pang.wav]\0\f[height,32]Miss %misses! "
+						}else{
+							"\p[%(_i+1)]\s[-1]\0\f[height,32]Miss %misses! "
+						}
+						
+					}
+				}elseif duckTime[_i] > 1 {
+					duckTime[_i]--
+					if duckTime[_i] == 3 && SHIORI3FW.IsVisible[_i+1] > 0{
+						"\p[%(_i+1)]\i[51]"
+					}elseif duckTime[_i] == 2 && SHIORI3FW.IsVisible[_i+1] > 0{
+						"\p[%(_i+1)]\i[52]"
+					}
+					
+				}elseif duckVal[_i] >= 1 && SHIORI3FW.IsVisible[_i+1] == 0{
+					//Error detected; null duckie. Quietly clear.
+					duckTime[_i] = 0
+					duckVal[_i] = 0
+					duckSpecial[_i] = 0
+					"\p[%(_i+1)]\s[-1]"
+				}
+				
+				
+			} 
+		}
+		if burstActive > 0{
+			burstActive--
+			OnSpawnDuck
+			OnSpawnDuck
+		}
+	}
+
+}
+
+ClickDuck : all{
+	_index = TOINT(TOINT(_argv[0]) - 1)
+	if gameOn == 1{
+		
+		points += duckVal[_index]
+		duckVal[_index]=0
+		
+		if duckSpecial[_index] == 1{
+			burstActive += 5
+		}
+		duckSpecial[_index]=0
+		
+		
+		"\_q\p[%(_argv[0])]\s[-1]%(OnSurfaceRestore)\f[height,+22]%points"
+		duckTime[_index]=0
+		if sfx == 1; quackNoise
+		/*--
+		if () == 1{
+			"\n\nError!\n%(duckVal)\nDuckVal is a %(GETTYPE(duckVal))"
+		}
+		*/
+	}else{
+		if points > 0{
+			gameOn = 1
+		}else{
+			"%(clearKeros)"
+		}
+		
+	}
+	
+}
+
+
+quackNoise{
+	"\_v[sound/quack1.wav]"
+	"\_v[sound/quack2.wav]"
+	"\_v[sound/quack3.wav]"
+	"\_v[sound/quack4.wav]"
+	"\_v[sound/quack5.wav]"
+	"\_v[sound/quack6.wav]"
+	"\_v[sound/quack7.wav]"
+	"\_v[sound/quack8.wav]"
+	"\_v[sound/quack9.wav]"
+	"\_v[sound/quack10.wav]"
+	"\_v[sound/quack11.wav]"
+	"\_v[sound/quack12.wav]"
+	"\_v[sound/quack13.wav]"
+
+
+}
+
+OnEndGame{
+	endGame
+}
+
+endGame{
+	
+	gameOn = 0 //quick closure in case the user cuts off The Laugherrrrr
+	if sfx == 1; "\_v[sound/pang.wav]"
+	_ticketgain = TOINT(points / 2)
+	tickets += _ticketgain
+	--
+	
+	if points > highscore{
+		"%(clearKeros)\0Game Over. New high score or whatever. %points total. You earned %_ticketgain tickets."
+		highscore = points
+		points = 0
+	}else{
+		if misses > 1{
+			"%(clearKeros)\0And there's %misses ducks down the river. Poor you. You earned %_ticketgain tickets."
+		}else{
+			"%(clearKeros)%(mischief)Game over. Here's %_ticketgain tickets.\w4.\w4.\w4 don't spend it all in one place."
+		}
+		
+		points = 0
+	}
+	misses = 0
+	duckRate = 0 
+	spawnTimer = 0 
+	totalgames++
+
+}
+
+
+OnDisplayHandover{
+	//Example array in reference1: 0,0,1600,900,32,1,bottom,1560
+	//"%reference3"
+	mleft = reference3[0]
+	mup = reference3[1]
+	mright = reference3[2]
+	mdown = reference3[3]
+	monitornum = reference3[5]
+
+}
+
+
+OnSpawnDuck : all{
+
+	"\_q"
+	//Find the next available space
+	_i = 0
+	_foundflag = 0
+	
+	for _i = 0; _i < 28 && _foundflag == 0; _i++{
+		if duckVal[_i] < 1{
+			//Found a free space!
+			_pindex = _i + 1
+			"\p[%(_pindex)]"
+			duckVal[_i] = TOINT(1 * pointmultiplier)
+			duckTime[_i] = RAND(duckRate * 2) + 15
+			_foundflag = 1
+		
+		}
+	}
+	_i--
+	//If space is available
+	if _foundflag == 1{
+		_color = 2000 + (RAND(7) * 10)
+		
+		_x = RAND(mright - mleft - 150)
+		_y = RAND(mdown - mup - 150)
+		"\s[%_color]"
+
+		//Small chance for a higher-point costumed duckie.
+		if RAND(10) == 0{
+			_costume = RAND(7)
+			_costumeval = 100 + _costume
+			"\i[%_costumeval]"
+			if _costume == 0{
+				//queen of england
+				duckSpecial[_i] = 1
+				duckVal[_i] = 1 * pointmultiplier + 2
+			}else{
+				duckVal[_i]++
+			}
+		}
+
+		//shrink em
+		_scale = 100 - (RAND(50))
+		"\![set,scaling,%(_scale)]"
+
+		//make them face the other way
+		if RAND(2) == 0{
+			"\![set,scaling,-100,100]"
+		}
+
+	
+		"\![move,--X=%(_x),--Y=%(_y),--time=0,--base=primaryscreen]"
+	}
+
+}

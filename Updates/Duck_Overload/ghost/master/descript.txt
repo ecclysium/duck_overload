@@ -1,0 +1,20 @@
+charset,UTF-8
+
+name,Duck Overload
+type,ghost
+
+shiori,yaya.dll
+
+craftman,Blue & Ecclysium
+craftmanw,Blue & Ecclysium
+craftmanurl,
+
+sakura.name,Dog
+kero.name,Duck
+
+icon,icon.ico
+
+sstp.allowunspecifiedsend,0
+
+balloon,Carnival On Quack
+default.balloon.path,/carnival_on_quack

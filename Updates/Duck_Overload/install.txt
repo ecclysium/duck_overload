@@ -1,0 +1,7 @@
+charset,UTF-8
+type,ghost
+
+name,Duck Overload
+directory,duck_overload
+balloon.directory,Carnival on Quack
+balloon.source.directory,carnival_on_quack

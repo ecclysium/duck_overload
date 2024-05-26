@@ -1,0 +1,141 @@
+
+descript
+{
+	version,1
+}
+
+//—————————————————————————————— Sakura surfaces ——————————————————————————————
+
+surface0
+{
+	collision0,0,0,130,65,head
+	
+	//Example code for blink animation - uncomment if you want it
+	//animation0.interval,random,4
+	//animation0.pattern0,overlay,101,0,0,0
+	//animation0.pattern1,overlay,102,100,0,0
+	//animation0.pattern2,overlay,-1,50,0,0
+	
+	
+	//Example code for a talk animation - uncomment if you want it
+	// animation1.interval,talk,4
+	// animation1.pattern0,alternativestart,(2,3,4)
+	
+	// animation2.interval,never
+	// animation2.pattern0,overlay,103,0,0,0
+	// animation2.pattern1,overlay,104,200,0,0
+	// animation2.pattern2,overlay,-1,200,0,0
+	
+	// animation3.interval,never
+	// animation3.pattern0,overlay,103,0,0,0
+	// animation3.pattern1,overlay,-1,200,0,0
+	
+	// animation4.interval,never
+	// animation4.pattern0,overlay,104,0,0,0
+	// animation4.pattern1,overlay,105,200,0,0
+	// animation4.pattern2,overlay,-1,200,0,0
+}
+
+surface1000{
+	animation90.interval,runonce
+	animation90.pattern0,overlay,0,0,0,0
+}
+
+surface.append1000-1999{
+	
+	//Mouth movements
+	animation100.interval,talk,5
+	animation100.pattern0,alternativestart,(101,102,103)
+	
+	animation101.interval,never
+	animation101.pattern0,overlay,1004,0,0,0
+	animation101.pattern1,overlay,1002,140,0,0
+	animation101.pattern2,overlay,1001,170,0,0
+	animation101.pattern3,overlay,-1,0,120,0
+	
+	animation102.interval,never
+	animation102.pattern0,overlay,1001,0,0,0
+	animation102.pattern1,overlay,1002,160,0,0
+	animation102.pattern2,overlay,1003,130,0,0
+	animation102.pattern3,overlay,-1,120,0,0
+	
+	animation103.interval,never
+	animation103.pattern0,overlay,1002,0,0,0
+	animation103.pattern1,overlay,1004,160,0,0
+	animation103.pattern2,overlay,1001,140,0,0
+	animation103.pattern3,overlay,-1,0,80,0	
+	
+	//Prizes
+	animation300.interval,never
+	animation300.pattern0,overlay,3000,0,0,0
+	
+	animation301.interval,never
+	animation301.pattern0,overlay,3010,0,0,0
+	
+	animation302.interval,never
+	animation302.pattern0,overlay,3020,0,0,0
+	
+	animation303.interval,never
+	animation303.pattern0,overlay,3030,0,0,0
+	
+	animation304.interval,never
+	animation304.pattern0,overlay,3040,0,0,0
+	
+	animation305.interval,never
+	animation305.pattern0,overlay,3050,0,0,0
+	
+	animation306.interval,never
+	animation306.pattern0,overlay,3060,0,0,0
+	
+
+	
+	
+	
+	
+}
+
+
+//blinking on bored and mischevious 
+surface.append1000,1500{
+	
+	animation200.interval,rarely
+	animation200.pattern0,overlay,1051,0,0,0
+	animation200.pattern1,overlay,-1,130,0,0
+
+	
+	
+}
+
+//—————————————————————————————— Duck surfaces ——————————————————————————————
+
+surface.append2000-3000
+{
+	animation51.interval,never
+	animation51.pattern0,overlay,2001,0,0,0
+	
+	animation52.interval,never
+	animation52.pattern0,overlay,2002,0,0,0
+	
+	animation100.interval,never
+	animation100.pattern0,overlay,2200,0,0,0
+	
+	animation101.interval,never
+	animation101.pattern0,overlay,2201,0,0,0
+	
+	animation102.interval,never
+	animation102.pattern0,overlay,2202,0,0,0
+	
+	animation103.interval,never
+	animation103.pattern0,overlay,2203,0,0,0
+	
+	animation104.interval,never
+	animation104.pattern0,overlay,2204,0,0,0
+	
+	animation105.interval,never
+	animation105.pattern0,overlay,2205,0,0,0
+	
+	animation106.interval,never
+	animation106.pattern0,overlay,2206,0,0,0
+	
+
+}

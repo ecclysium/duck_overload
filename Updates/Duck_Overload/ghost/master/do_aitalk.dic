@@ -1,0 +1,50 @@
+OnAiTalk
+{
+	if CHAIN.IDName == ""
+	{
+		LastTalk = RandomTalk
+	}
+	else
+	{
+		LastTalk = ChainTalk
+	}
+	LastTalk
+}
+
+RandomTalk : nonoverlap_pool
+{
+	if gameOn == 0{
+		"%(squinty).\w4.\w4.is that the queen of england on a duck"
+		"%(squinty)''ohh get a job for the summer it'll be sooo much fun'' they said"
+		"%(bored)Do you ever wonder why you didn't just agree to live in your mother's basement? \w8I do."
+		"%(bored)You should go tell my manager that I should be anywhere but at Duck Overload. "
+		"%(bored)Sigh.\w4.\w4."
+		"%(bored)No, before you ask, I'm not a guy in a suit."
+		"%(mischief)I wonder how hard it would be to finally get fired from this job."
+		"%(bored)This place doesn't even pay that well."
+		"%(bored)People think we're supposed to live on the 9$ an hour wage. At least it's not the actual minimum wage. "
+		"%(mischief)\f[height,-2]If you buy funnel cake you should give me some."
+		"%(happy)Can I pay you to go buy me a corn dog? \w8\w8\w8%(bored)No, it's not cannibalism. "
+		"%(bored)My coworker won't stop playing Dancing Queen on loop while we clean this place."
+		"%(bored)Why are you still hanging around? Why not actually play.\w4.\w4. or go to a more interesting booth. "
+	}
+	
+
+}
+
+
+OnSecondChange : all{
+	_content = OnSecondChangeDuckActivity
+	if _content != ""{
+		"\_q%(_content)"
+	}
+}
+
+
+clearKeros : all{
+	for _i = 1; _i <50; _i++{
+		"\p[%_i]\s[-1]"
+	}
+}
+
+

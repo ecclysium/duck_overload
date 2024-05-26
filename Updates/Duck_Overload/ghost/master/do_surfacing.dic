@@ -1,0 +1,65 @@
+//Surfacing file
+//This file is for the images, in case they need to be modified and immediately take effect everywhere.
+
+
+
+
+
+
+
+bored{
+	"\0\s[1000]"
+	--
+	showPrizes
+}
+
+
+alarmsweat{
+	"\0\s[1100]"
+	--
+	showPrizes
+}
+
+
+alarmlook{
+	"\0\s[1200]"
+	--
+	showPrizes
+}
+
+whatlook{
+	"\0\s[1300]"
+	--
+	showPrizes
+}
+
+
+happy{
+	"\0\s[1400]"
+	--
+	showPrizes
+}
+
+
+mischief{
+	"\0\s[1500]"
+	--
+	showPrizes
+}
+
+squinty{
+	"\0\s[1600]"
+	--
+	showPrizes
+}
+
+
+showPrizes : all{
+	for _i = 0; _i < ARRAYSIZE(prizesgot); _i++{
+		_prize = prizesgot[_i]
+		"\i[%_prize]"
+	}
+
+}
+
+
